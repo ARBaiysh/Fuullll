@@ -1,0 +1,8 @@
+.table .thead-light{
+  color: #ffffff;
+  background-color: rgba(9, 15, 19, 0.74);
+  border-color: #dee2e6;
+}
+.highlight {
+  background-color: rgba(245, 149, 152, 0.65)
+}
