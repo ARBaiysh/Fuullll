@@ -14,8 +14,7 @@ export class ProductListComponent implements OnInit {
   currentCategoryId!: number;
   searchMode!: boolean;
 
-  constructor(private productService: ProductService,
-              private route: ActivatedRoute) {
+  constructor(private productService: ProductService, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
