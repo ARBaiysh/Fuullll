@@ -1,27 +1,25 @@
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-      integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+<div class="main-content">
+  <div class="section-content section-content-p30">
+    <div class="container-fluid">
+      <div class="row">
 
-<table class="table">
+        <!-- loop over the collection of products -->
+        <div *ngFor="let tempProduct of products" class="col-md-3">
 
-  <thead class="thead-light">
-  <tr>
-    <th></th>
-    <th>Name</th>
-    <th>UnitPrice</th>
-    <th>UnitsInStock</th>
-    <th>DateCreated</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let tempSalesPerson of products" [ngClass]="{'highlight':tempSalesPerson.unitPrice > 25}">
-    <td class="align-middle">
-      <img src="{{ tempSalesPerson.imageUrl }}" height="50"/>
-    </td>
-    <td class="align-middle">{{ tempSalesPerson.name }}</td>
-    <td class="align-middle">{{ tempSalesPerson.unitPrice | currency:'USD' }}</td>
-    <td class="align-middle">{{ tempSalesPerson.unitsInStock }}</td>
-    <td class="align-middle">{{ tempSalesPerson.dateCreated  | date :'dd.MM.yyyy hh:mm:ss'}}</td>
-  </tr>
-  </tbody>
+          <div class="product-box">
+            <img src="{{ tempProduct.imageUrl }}" class="img-responsive">
+            <h1>{{ tempProduct.name }}</h1>
+            <div class="price">{{ tempProduct.unitPrice | currency:'USD' }}</div>
+            <a href="#" class="primary-btn">Add to cart</a>
+          </div>
 
-</table>
+        </div>
+        <!--if product empty then display a message-->
+        <div *ngIf="products?.length==0" class="alert alert-warning col-md-12" role="alert">
+        No products fond.
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
