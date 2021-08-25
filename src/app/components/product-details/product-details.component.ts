@@ -10,7 +10,7 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class ProductDetailsComponent implements OnInit {
 
-  product!: Product;
+  product: Product = new Product();
 
   constructor(private productService: ProductService, private router: ActivatedRoute) {
   }
@@ -23,6 +23,8 @@ export class ProductDetailsComponent implements OnInit {
 
   private handlerProductDetails() {
     const theProductId: number = +this.router.snapshot.paramMap.get('id')!;
-    this.productService.getProduct(theProductId).subscribe( date => {this.product = date})
+    this.productService.getProduct(theProductId).subscribe(date => {
+      this.product = date
+    })
   }
 }
