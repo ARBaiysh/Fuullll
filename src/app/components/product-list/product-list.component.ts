@@ -15,7 +15,6 @@ export class ProductListComponent implements OnInit {
   previousCategoryId: number = 1;
   searchMode: boolean = false;
 
-  // new properties for pagination
   thePageNumber: number = 1;
   thePageSize: number = 5;
   theTotalElements: number = 0;
@@ -78,5 +77,9 @@ export class ProductListComponent implements OnInit {
     this.thePageNumber = 1;
     this.listProducts();
 
+  }
+
+  addToCart(tempProduct: Product) {
+    console.log(`${tempProduct.name}, ${tempProduct.unitPrice}`);
   }
 }
