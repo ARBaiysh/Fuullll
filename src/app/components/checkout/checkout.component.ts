@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {Luv2ShopFormService} from "../../services/luv2-shop-form.service";
+import {Country} from "../../common/country";
+import {State} from "../../common/state";
 
 @Component({
   selector: 'app-checkout',
@@ -15,6 +17,10 @@ export class CheckoutComponent implements OnInit {
 
   creditCardYears: number[] = [];
   creditCardMonths: number[] = [];
+
+  countries!: Country[];
+  shippingAddressStates!: State[];
+  billingAddressStates!: State[];
 
   constructor(private formBuilder: FormBuilder,
               private luv2ShopFormService: Luv2ShopFormService) {
@@ -56,11 +62,15 @@ export class CheckoutComponent implements OnInit {
     this.luv2ShopFormService.getCreditCardMonths(startMonth).subscribe(data => this.creditCardMonths = data);
     this.luv2ShopFormService.getCreditCardYears().subscribe(data => this.creditCardYears = data);
 
+    this.luv2ShopFormService.getCountries().subscribe(date => this.countries = date);
+
   }
 
   onSubmit() {
     console.log('Handler the submit button')
     console.log(this.checkoutFormGroup.get('customer')?.value)
+    console.log(`The shipping address country is: ` + this.checkoutFormGroup.get('shippingAddress')?.value.country.name)
+    console.log(`The shipping address state is: ` + this.checkoutFormGroup.get('shippingAddress')?.value.state.name)
   }
 
   copySippingAddressToBillingAddress(event: Event) {
@@ -68,8 +78,11 @@ export class CheckoutComponent implements OnInit {
     if ((event.target as HTMLInputElement).checked) {
       this.checkoutFormGroup.controls.billingAddress
         .setValue(this.checkoutFormGroup.controls.shippingAddress.value);
+
+      this.billingAddressStates = this.shippingAddressStates;
     } else {
       this.checkoutFormGroup.controls.billingAddress.reset();
+      this.billingAddressStates = [];
     }
   }
 
@@ -84,6 +97,21 @@ export class CheckoutComponent implements OnInit {
 
     this.luv2ShopFormService.getCreditCardMonths(startMonth).subscribe(data => this.creditCardMonths = data);
 
+  }
+
+  getStates(fromGroupName: string) {
+    const fromGroup = this.checkoutFormGroup.get(fromGroupName);
+    const countryCode = fromGroup?.value.country.code;
+
+
+    console.log(`${fromGroup} country code: ${countryCode}`)
+    console.log(`${fromGroup} country name: ${fromGroup?.value.country.name}`)
+
+    this.luv2ShopFormService.getStates(countryCode).subscribe(
+      data => {
+        fromGroupName === 'shippingAddress' ? this.shippingAddressStates = data : this.billingAddressStates = data;
+        fromGroup?.get('state')?.setValue(data[0]);
+      });
   }
 }
 
