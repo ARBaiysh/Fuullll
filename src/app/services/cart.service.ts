@@ -7,7 +7,6 @@ import {BehaviorSubject, Subject} from "rxjs";
 })
 export class CartService {
   cartItems: CartItem[] = [];
-
   totalPrice: Subject<number> = new BehaviorSubject<number>(0);
   totalQuantity: Subject<number> = new BehaviorSubject<number>(0);
 
